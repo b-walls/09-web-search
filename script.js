@@ -24,6 +24,8 @@ topicSelect.addEventListener('change', async () => {
       },
       body: JSON.stringify({
         model: 'gpt-4o',
+        max_completion_tokens: 300,
+        temperature: 0.7,
         messages: [
           {
             role: 'system',
@@ -33,9 +35,7 @@ topicSelect.addEventListener('change', async () => {
             role: 'user',
             content: prompt
           }
-        ],
-        max_completion_tokens: 300,
-        temperature: 0.7
+        ]
       })
     });
 
