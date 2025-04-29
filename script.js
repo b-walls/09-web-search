@@ -11,7 +11,7 @@ topicSelect.addEventListener('change', async () => {
     // Get the selected topic
     const topic = topicSelect.value;
 
-    // Prepare the prompt for GPT-4
+    // Prepare the prompt
     const prompt = `Give me a positive, recent story about ${topic} from this week. 
                    Keep it brief and engaging, focusing on the main points.`;
 
@@ -26,10 +26,16 @@ topicSelect.addEventListener('change', async () => {
         model: 'gpt-4o',
         messages: [
           {
+            role: 'system',
+            content: 'You are a helpful assistant that summarizes positive, recent news stories about the selected topic from this week. Keep your answers brief, clear, and engaging for a general audience.'
+          },
+          {
             role: 'user',
             content: prompt
           }
-        ]
+        ],
+        max_completion_tokens: 300,
+        temperature: 0.7
       })
     });
 
