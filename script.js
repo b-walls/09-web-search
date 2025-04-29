@@ -43,12 +43,7 @@ topicSelect.addEventListener('change', async () => {
     const data = await response.json();
     
     // Update the UI with the response
-    const story = data.choices[0].message.content;
-    const newMessage = document.createElement('div');
-    newMessage.className = 'message bot-message';
-    newMessage.textContent = story;
-    responseDiv.parentElement.appendChild(newMessage);
-    newMessage.scrollIntoView({ behavior: 'smooth' });
+    responseDiv.textContent = data.choices[0].message.content;
 
   } catch (error) {
     // Handle any errors
