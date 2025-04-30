@@ -22,12 +22,12 @@ topicSelect.addEventListener('change', async () => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
-
+        model: 'gpt-4o-search-preview',
+        web_search_options: {},
         messages: [
           {
             role: 'system',
-            content: 'You are a helpful assistant that summarizes recent stories about the provided topic from this week. Keep your answers brief, clear, and engaging for a general audience.'
+            content: 'You are a helpful assistant that summarizes recent stories about the provided topic from this week. Keep your answers brief, clear, and engaging for a general audience. Display ONLY US-based stories. Do not include any toher information.'
           },
           {
             role: 'user',
@@ -45,6 +45,13 @@ topicSelect.addEventListener('change', async () => {
     const formattedText = text
       .split('\n\n')  // Split into paragraphs
       .filter(para => para.trim() !== '')  // Remove empty paragraphs
+      .map(para => {
+        // Convert all citation links into actual clickable links
+        return para.replace(
+          /\[([^\]]+)\]\(([^)]+)\)/g,  // Match [text](link)
+          `<a href="$2" target="_blank">$1</a>`  // Replace with clickable link
+        );
+      })
       .map(para => `<p>${para}</p>`)  // Wrap in p tags
       .join('');
     
