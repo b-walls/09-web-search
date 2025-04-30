@@ -4,7 +4,7 @@ We use `async/await` when fetching data from an API.
 
 We provide the simplest, beginner-friendly code possible.
 
-We do NOT use `export` statements. Insted we link to JS files from `index.html`.
+We do NOT use `export` statements. Instead we link to JS files from `index.html`.
 
 We provide comments to help students understand each part of the generated code.
 
