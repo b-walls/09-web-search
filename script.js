@@ -12,8 +12,7 @@ topicSelect.addEventListener('change', async () => {
     const topic = topicSelect.value;
 
     // Prepare the prompt
-    const prompt = `Give me a positive, recent story about ${topic} from this week. 
-                   Keep it brief and engaging, focusing on the main points.`;
+    const prompt = `Give me a recent story about ${topic}.`;
 
     // Make API request to OpenAI
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -24,12 +23,11 @@ topicSelect.addEventListener('change', async () => {
       },
       body: JSON.stringify({
         model: 'gpt-4o',
-        max_completion_tokens: 300,
-        temperature: 0.7,
+
         messages: [
           {
             role: 'system',
-            content: 'You are a helpful assistant that summarizes positive, recent news stories about the selected topic from this week. Keep your answers brief, clear, and engaging for a general audience.'
+            content: 'You are a helpful assistant that summarizes recent stories about the provided topic from this week. Keep your answers brief, clear, and engaging for a general audience.'
           },
           {
             role: 'user',
@@ -42,8 +40,15 @@ topicSelect.addEventListener('change', async () => {
     // Parse the response
     const data = await response.json();
     
-    // Update the UI with the response
-    responseDiv.textContent = data.choices[0].message.content;
+    // Format and update the UI with the response
+    const text = data.choices[0].message.content;
+    const formattedText = text
+      .split('\n\n')  // Split into paragraphs
+      .filter(para => para.trim() !== '')  // Remove empty paragraphs
+      .map(para => `<p>${para}</p>`)  // Wrap in p tags
+      .join('');
+    
+    responseDiv.innerHTML = formattedText;
 
   } catch (error) {
     // Handle any errors
