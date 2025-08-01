@@ -22,8 +22,8 @@ topicSelect.addEventListener('change', async () => {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
-
+        model: 'gpt-4o-search-preview',
+        // tools: [{type: "web_search_preview"}],
         messages: [
           {
             role: 'system',
@@ -42,7 +42,10 @@ topicSelect.addEventListener('change', async () => {
     
     // Format and update the UI with the response
     const text = data.choices[0].message.content;
-    const formattedText = text
+    let formattedText = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+      .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
       .split('\n\n')  // Split into paragraphs
       .filter(para => para.trim() !== '')  // Remove empty paragraphs
       .map(para => `<p>${para}</p>`)  // Wrap in p tags
